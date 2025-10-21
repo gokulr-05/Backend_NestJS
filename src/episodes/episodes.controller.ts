@@ -1,4 +1,5 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body } from '@nestjs/common';
+import { CreateEpisodeDto } from './dto/create-episode.dto';
 
 @Controller('episodes')
 export class EpisodesController {
@@ -8,6 +9,11 @@ export class EpisodesController {
         return "All Episodes";
     }
 
+    @Get(":id")
+    getEpisodeByID(@Param('id') id: string){
+        return `Episode ${id}`;
+    }
+
     @Get('featured')
     featuredEpisodes(){
         return "Featured Episodes";
@@ -15,8 +21,8 @@ export class EpisodesController {
 
 
     @Post()
-    createEpisode(){
-        return "Create Episode";
+    createEpisode(@Body() createEpisodeDto: CreateEpisodeDto){
+        return createEpisodeDto;
     }
 
 }
