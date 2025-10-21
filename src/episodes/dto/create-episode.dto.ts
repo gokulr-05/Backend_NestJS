@@ -1,4 +1,4 @@
 export class CreateEpisodeDto {
-    readonly title: string;
-    readonly podcastId: string;
+    readonly name: string;
+    readonly featured?: boolean;
 }
