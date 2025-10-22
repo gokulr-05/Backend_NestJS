@@ -1,8 +1,11 @@
-import { Controller, Get, Param, Post, Body, Query } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Query, ParseIntPipe, DefaultValuePipe, ValidationPipe, UseGuards } from '@nestjs/common';
 import { CreateEpisodeDto } from './dto/create-episode.dto';
-import { EpisodesService } from "./episodes.service"
-import {ConfigService} from "../config/config.service"
+import { EpisodesService } from "./episodes.service";
+import {ConfigService} from "../config/config.service";
+import {IsPositivePipe} from "./pipes/is-positive.pipe";
+import {ApiKeyGuard} from "./guards/api-key.guard"
 
+@UseGuards(ApiKeyGuard)
 @Controller('episodes')
 export class EpisodesController {
 
@@ -10,7 +13,8 @@ export class EpisodesController {
 
 
     @Get()
-    getAllEpisodes(@Query('sort') sort: 'asc'| 'desc'= 'asc'){
+    // the defaultvalue pipe should be the written first
+    getAllEpisodes(@Query('sort') sort: 'asc'| 'desc'= 'asc', @Query('limit', new DefaultValuePipe(10), ParseIntPipe, new IsPositivePipe()) limit: number=10){
         return this.EpisodesService.findAll(sort);
     }
 

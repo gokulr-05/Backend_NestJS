@@ -1,4 +1,16 @@
+import { IsString, IsBoolean, IsNotEmpty, IsDate } from "class-validator"
+import { Type } from "class-transformer"
+
 export class CreateEpisodeDto {
-    readonly name: string;
-    readonly featured?: boolean;
+
+    @IsString()
+    @IsNotEmpty()
+    name: string;
+
+    @IsBoolean()
+    featured?: boolean;
+
+    @IsDate()
+    @Type(()=>Date)
+    date:Date;
 }
